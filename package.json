@@ -1,0 +1,30 @@
+{
+  "name": "homebridge-newbeem",
+  "version": "0.0.1",
+  "description": "UDP server light sensor plugin for Homebridge",
+  "main": "newbeem.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cedriclmenard/homebridge-newbeem.git"
+  },
+  "keywords": [
+    "homebridge-plugin",
+    "newbeem",
+    "plug",
+    "smart",
+    "light"
+  ],
+  "author": "cedriclmenard",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cedriclmenard/homebridge-newbeem/issues"
+  },
+  "engines": {
+    "node": ">=6.0.0",
+    "homebridge": ">=0.2.0"
+  },
+  "homepage": "https://github.com/cedriclmenard/homebridge-newbeem#readme"
+}
