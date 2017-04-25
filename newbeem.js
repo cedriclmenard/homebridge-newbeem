@@ -12,7 +12,7 @@ module.exports = (homebridge) => {
   Service = homebridge.hap.Service;
   Characteristic = homebridge.hap.Characteristic;
 
-  homebridge.registerAccessory('homebridge-newbeem', 'NewBeemLight', NewbeemLightPlugin);
+  homebridge.registerAccessory('homebridge-newbeem', 'NewBeemSmartPlug', NewbeemLightPlugin);
 };
 
 class NewbeemLightPlugin
