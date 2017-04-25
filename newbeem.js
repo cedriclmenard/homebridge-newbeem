@@ -49,10 +49,16 @@ class NewbeemLightPlugin
     this.light.getCharacteristic(Characteristic.On).on('set', function(value,callback){
         if (value) {
             var message = new Buffer(onMessage,'hex');
-            this.server.send(message,this.port,this.address,callback);
+            this.server.send(message,0,message.length,this.port,this.address, function(err, bytes) {
+              console.log('UDP message sent');
+              callback();
+            });
         } else {
             var message = new Buffer(offMessage,'hex');
-            this.server.send(message,this.port,this.address,callback);
+            this.server.send(message,0,message.length,this.port,this.address, function(err, bytes) {
+              console.log('UDP message sent');
+              callback();
+            });
         }
     });
 
