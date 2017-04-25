@@ -56,13 +56,13 @@ class NewbeemLightPlugin
 
   setState(value, callback) {
     if (value) {
-            var message = new Buffer(onMessage,'hex');
+            var message = new Buffer(openMessage,'hex');
             this.server.send(message,0,message.length,this.port,this.address, function(err, bytes) {
               console.log('UDP message sent');
               callback();
             });
         } else {
-            var message = new Buffer(offMessage,'hex');
+            var message = new Buffer(closeMessage,'hex');
             this.server.send(message,0,message.length,this.port,this.address, function(err, bytes) {
               console.log('UDP message sent');
               callback();
