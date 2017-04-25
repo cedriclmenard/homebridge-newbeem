@@ -45,9 +45,16 @@ class NewbeemLightPlugin
       }
     });
 
-    // Callback to open and close
+    // Set Callback to open and close
     this.light.getCharacteristic(Characteristic.On).on('set', function(value,callback){
-        if (value) {
+        this.setState(value,callback);
+    });
+
+    this.server.bind(this.port);
+  }
+
+  setState(value, callback) {
+    if (value) {
             var message = new Buffer(onMessage,'hex');
             this.server.send(message,0,message.length,this.port,this.address, function(err, bytes) {
               console.log('UDP message sent');
@@ -60,9 +67,6 @@ class NewbeemLightPlugin
               callback();
             });
         }
-    });
-
-    this.server.bind(this.port);
   }
 
   getServices() {
