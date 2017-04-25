@@ -40,9 +40,9 @@ class NewbeemLightPlugin
       console.log(`server received udp: ${msg.toString('hex')} from ${rinfo.address}`);
 
       if (msg.toString('hex') == onMessage && rinfo.address == this.address) {
-          this.light.getCharacteristic(Characteristic.On).setValue(true);
+          this.light.getCharacteristic(Characteristic.On) = true;
       } else if (msg.toString('hex') == offMessage && rinfo.address == this.address) {
-          this.light.getCharacteristic(Characteristic.On).setValue(false);
+          this.light.getCharacteristic(Characteristic.On) = false;
       }
     });
 
