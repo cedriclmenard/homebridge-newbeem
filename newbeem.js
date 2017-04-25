@@ -51,7 +51,7 @@ class NewbeemLightPlugin
     this.light.getCharacteristic(Characteristic.On).on('set', function(value,callback){
         that.setState(value,callback);
     });
-    this.light.getCharacteristic(Characteristic.On).on('get', function(value,callback){
+    this.light.getCharacteristic(Characteristic.On).on('get', function(){
         that.askState();
     });
 
