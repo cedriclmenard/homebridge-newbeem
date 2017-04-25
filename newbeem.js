@@ -45,6 +45,9 @@ class NewbeemLightPlugin
       } else if (msg.toString('hex') == offMessage && rinfo.address == this.address) {
           this.state = false;
       }
+      if (this.callback) {
+        this.callback();
+      }
     });
 
     // Set Callback to open and close
@@ -53,8 +56,9 @@ class NewbeemLightPlugin
         that.state = value;
         that.setState(value,callback);
     });
-    this.light.getCharacteristic(Characteristic.On).on('get', function(){
+    this.light.getCharacteristic(Characteristic.On).on('get', function(callback){
         that.askState();
+        that.callback = callback;
         return that.state;
     });
 
