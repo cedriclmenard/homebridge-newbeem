@@ -1,5 +1,6 @@
 'use strict';
 
+let askMessage = 'bbf0fc5dbeb0b81ca1487621a6dfaa9cc4a7bf8da37e04dff934c645462ad83f';
 let onMessage = 'bbf0fc5dbeb0b81ca1487621a6dfaa9c99d67bab7409fd2523ac1ca40234161bcd3f0dff662485179db8027ff48a36ba1b2bf9908de119aee2f9b66a5638a4ef74a3fdebf5fc7e80b130d89650bf9b70f9af9765037c3078c3dde07aae973abc';
 let offMessage = 'bbf0fc5dbeb0b81ca1487621a6dfaa9c99d67bab7409fd2523ac1ca40234161bcd3f0dff662485179db8027ff48a36ba120b54b035e5b6d13d3fc784e8313937579b78b2928df42b71005c85ae9ff6d48ac28a604b84caec39c5daa7dded511e';
 let openMessage = '3f8150b04bf6e4156ce749acd6bd4d3a4611e016eb29759f105c377a51ee9451';
@@ -50,6 +51,9 @@ class NewbeemLightPlugin
     this.light.getCharacteristic(Characteristic.On).on('set', function(value,callback){
         that.setState(value,callback);
     });
+    this.light.getCharacteristic(Characteristic.On).on('get', function(value,callback){
+        that.askState();
+    });
 
     this.server.bind(this.port);
   }
@@ -68,6 +72,13 @@ class NewbeemLightPlugin
               callback();
             });
         }
+  }
+
+  askState() {
+    var message = new Buffer(askMessage,'hex');
+    this.server.send(message,0,message.length,this.port,this.address, function(err, bytes) {
+      console.log('UDP message sent');
+    });
   }
 
   getServices() {
