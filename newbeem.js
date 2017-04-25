@@ -24,6 +24,7 @@ class NewbeemLightPlugin
     this.name = config.name;
     this.port = config.port || 5000;
     this.address = config.address;
+    this.state = false;
 
     const subtype = this.name; 
     this.light = new Service.Lightbulb(this.name, subtype);
@@ -40,19 +41,21 @@ class NewbeemLightPlugin
       console.log(`server received udp: ${msg.toString('hex')} from ${rinfo.address}`);
 
       if (msg.toString('hex') == onMessage && rinfo.address == this.address) {
-          this.light.setCharacteristic(Characteristic.On, true);
+          this.state = true;
       } else if (msg.toString('hex') == offMessage && rinfo.address == this.address) {
-          this.light.setCharacteristic(Characteristic.On, false);
+          this.state = false;
       }
     });
 
     // Set Callback to open and close
     var that = this;
     this.light.getCharacteristic(Characteristic.On).on('set', function(value,callback){
+        that.state = value;
         that.setState(value,callback);
     });
     this.light.getCharacteristic(Characteristic.On).on('get', function(){
         that.askState();
+        return that.state;
     });
 
     this.server.bind(this.port);
