@@ -46,8 +46,9 @@ class NewbeemLightPlugin
     });
 
     // Set Callback to open and close
+    var that = this;
     this.light.getCharacteristic(Characteristic.On).on('set', function(value,callback){
-        this.setState(value,callback);
+        that.setState(value,callback);
     });
 
     this.server.bind(this.port);
