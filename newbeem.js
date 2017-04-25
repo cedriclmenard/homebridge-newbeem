@@ -37,7 +37,7 @@ class NewbeemLightPlugin
 
     // Callback to set light indicator (on or off) when message is received
     this.server.on('message', (msg, rinfo) => {
-      console.log(`server received udp: ${msg} from ${rinfo.address}`);
+      console.log(`server received udp: ${msg.toString('hex')} from ${rinfo.address}`);
 
       if (msg.toString('hex') == onMessage && rinfo.address == this.address) {
           this.light.getCharacteristic(Characteristic.On).setValue(true);
