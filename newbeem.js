@@ -25,6 +25,7 @@ class NewbeemLightPlugin
     this.port = config.port || 5000;
     this.address = config.address;
     this.state = false;
+    this.newCallbackToCall = false;
 
     const subtype = this.name; 
     this.light = new Service.Lightbulb(this.name, subtype);
@@ -45,7 +46,8 @@ class NewbeemLightPlugin
       } else if (msg.toString('hex') == offMessage && rinfo.address == this.address) {
           this.state = false;
       }
-      if (this.callback) {
+      if (this.callback && this.newCallbackToCall) {
+        this.newCallbackToCall = false;
         this.callback();
       }
     });
@@ -59,6 +61,7 @@ class NewbeemLightPlugin
     this.light.getCharacteristic(Characteristic.On).on('get', function(callback){
         that.askState();
         that.callback = callback;
+        that.newCallbackToCall = true;
         return that.state;
     });
 
