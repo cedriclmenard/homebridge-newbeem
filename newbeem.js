@@ -19,6 +19,8 @@ module.exports = (homebridge) => {
 
 class NewbeemLightPlugin
 {
+
+  /* MARK: Contructor definition */
   constructor(log, config) {
     this.log = log;
     this.name = config.name;
@@ -42,11 +44,14 @@ class NewbeemLightPlugin
       console.log(`server received udp: ${msg.toString('hex')} from ${rinfo.address}`);
 
       if (msg.toString('hex') == onMessage && rinfo.address == this.address) {
+          console.log('Received message: light is OPEN');
           this.state = true;
       } else if (msg.toString('hex') == offMessage && rinfo.address == this.address) {
+          console.log('Received message: light is CLOSED');
           this.state = false;
       }
       if (this.callback && this.newCallbackToCall) {
+        console.log('Calling back after message receive using callback');
         this.newCallbackToCall = false;
         this.callback();
       }
@@ -55,10 +60,12 @@ class NewbeemLightPlugin
     // Set Callback to open and close
     var that = this;
     this.light.getCharacteristic(Characteristic.On).on('set', function(value,callback){
+        console.log('Beginning setting routine...')
         that.state = value;
         that.setState(value,callback);
     });
     this.light.getCharacteristic(Characteristic.On).on('get', function(callback){
+        console.log('Beginning asking routine...');
         that.askState();
         that.callback = callback;
         that.newCallbackToCall = true;
@@ -68,17 +75,19 @@ class NewbeemLightPlugin
     this.server.bind(this.port);
   }
 
+  /* End Constructor definition */
+
   setState(value, callback) {
     if (value) {
             var message = new Buffer(openMessage,'hex');
             this.server.send(message,0,message.length,this.port,this.address, function(err, bytes) {
-              console.log('UDP message sent');
+              console.log('UDP message sent: OPENING');
               callback();
             });
         } else {
             var message = new Buffer(closeMessage,'hex');
             this.server.send(message,0,message.length,this.port,this.address, function(err, bytes) {
-              console.log('UDP message sent');
+              console.log('UDP message sent: CLOSING');
               callback();
             });
         }
@@ -87,7 +96,7 @@ class NewbeemLightPlugin
   askState() {
     var message = new Buffer(askMessage,'hex');
     this.server.send(message,0,message.length,this.port,this.address, function(err, bytes) {
-      console.log('UDP message sent');
+      console.log('UDP message sent: ASKING');
     });
   }
 
