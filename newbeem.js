@@ -69,6 +69,7 @@ class NewbeemLightPlugin
         that.askState();
         that.callback = callback;
         that.newCallbackToCall = true;
+        while (!newCallbackToCall) {}
         return that.state;
     });
 
