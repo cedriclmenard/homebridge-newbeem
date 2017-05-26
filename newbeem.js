@@ -53,7 +53,7 @@ class NewbeemLightPlugin
       if (this.callback && this.newCallbackToCall) {
         console.log('Calling back after message receive using callback');
         this.newCallbackToCall = false;
-        this.callback();
+        this.callback(null, this.state);
       }
     });
 
@@ -69,7 +69,7 @@ class NewbeemLightPlugin
         that.askState();
         that.callback = callback;
         that.newCallbackToCall = true;
-        while (!that.newCallbackToCall) {}
+        //while (!that.newCallbackToCall) {}
         return that.state;
     });
 
